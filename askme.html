@@ -93,25 +93,38 @@
 				})(i);
 			}
 			
+			// display the officers
 			function display() {
-				console.log("displaying");
 				console.log(spreadsheet.length);
 				for (var i=0; i<spreadsheet.length; i++) {
 					var person = spreadsheet[i];
 					if (person.area) {
 						var personHTML = $('<div class="person" id="'+person.name+'"></div>');
 						$('#people').append(personHTML);
-						console.log(personHTML);
 						$(personHTML).append('<div class="personimage" style="background-image: url(\''+person.imgURL+'\');"></div>');
 						$(personHTML).append('<div class="persontitle">'+person.name+'</div>');
 						$(personHTML).append('<div class="personarea">'+person.area+'</div>');
 					}
 				}
+				
+				$('.filter').change(function() {
+					var key = $(this).val();
+					if (key) {
+						$('#people').find('div:not(:contains(' +key+ '))').parent().hide();
+						$('#people').find('div:contains('+key+')').parent().show();
+					}
+					else {
+						$('.person').show();
+					}
+				}).keyup(function() {
+					$(this).change();
+				});
 			}
 		</script>
 	</head>
 	<body>
 		<div id="wrap">
+			<input class="filter" type="text"></input>
 			<div id="people">
 			</div>
 		</div>
